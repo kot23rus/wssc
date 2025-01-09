@@ -1,0 +1,44 @@
+﻿@page "/company"
+@page "/company/{id}"
+@inject NavigationManager Navigation
+@inject HttpClient httpClient
+@inject Model.UserData userData
+@inject IDialogService DialogService
+
+<MudText Typo="Typo.h2" Class="mt-8" Align="Align.Center" hidden="@HideLoad">
+    <MudProgressCircular Class="align-center" Color="Color.Default" Indeterminate="true" />
+</MudText>
+<div style="display: grid; grid-template-columns: 1fr auto; align-items: center; width: 100%">
+    <MudText Typo="Typo.h2" Class="mt-8" Align="Align.Center" @ondrop="@((e)=>OnDrop(e,ShowCompany?.ID))" ondragover="event.preventDefault();">
+        @ShowCompany?.Name
+    </MudText>
+    <MudToolBar hidden="@HideTool">
+        <EditButtion ItemId="@CompanyID" OnClickCallback="ShowCompanyEdit" />
+        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@(() => CreateChild(@ShowCompany?.ID))" Size="Size.Small" Color="Color.Inherit" />
+        <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Color="Color.Error" OnClick="@(()=> Delete(ShowCompany?.ID, ShowCompany?.Name,"/"))" />
+    </MudToolBar>
+</div>
+
+<MudTreeView ServerData="@LoadServerData" Items="@InitialChilds">
+    <ItemTemplate Context="item">
+        <MudTreeViewItem Value="@item.Value" Icon="@item.Icon" LoadingIconColor="Color.Info" CanExpand="@item.Expandable">
+            <BodyContent>
+                <div style="display: grid; grid-template-columns: 1fr auto; align-items: center; width: 100%">
+                    <MudText Style="justify-self: start;"
+                             @ondrop="@((e)=>OnDrop(e,item.Value))"
+                             ondragover="event.preventDefault();"
+                             ondragstart="@GetTransfer(item.Value)"
+                             draggable="true">@item.Text</MudText>
+                    <div style="justify-self: end;">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@(() => CreateChild(item.Value))" Size="Size.Small" Color="Color.Inherit" />
+                        <EditButtion ItemId="@item.Value" ItemData="@item" OnClickCallback="ShowEntityEdit"/>
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Color="Color.Error" OnClick="@(()=> Delete(item.Value, item.Text))" />
+                    </div>
+                </div>
+            </BodyContent>
+        </MudTreeViewItem>
+    </ItemTemplate>
+</MudTreeView>
+
+
+

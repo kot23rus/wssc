@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35617.110
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSSC", "WSSC\WSSC\WSSC.csproj", "{DBADBB53-D8E7-4A2E-B308-6D6AADF3F322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSSC.Client", "WSSC\WSSC.Client\WSSC.Client.csproj", "{098B43D4-A6BC-413D-B502-0F4FF6D3BB0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+		screen1.jpg = screen1.jpg
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBADBB53-D8E7-4A2E-B308-6D6AADF3F322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBADBB53-D8E7-4A2E-B308-6D6AADF3F322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBADBB53-D8E7-4A2E-B308-6D6AADF3F322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBADBB53-D8E7-4A2E-B308-6D6AADF3F322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{098B43D4-A6BC-413D-B502-0F4FF6D3BB0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{098B43D4-A6BC-413D-B502-0F4FF6D3BB0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{098B43D4-A6BC-413D-B502-0F4FF6D3BB0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{098B43D4-A6BC-413D-B502-0F4FF6D3BB0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BB42CCB-A49A-46FB-BC0F-70F4F7723E7F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,37 @@
+﻿@inject HttpClient httpClient
+@inject Model.UserData userData
+<MudDialog>
+    <DialogContent>
+        <MudSelect T="Model.EntityType"
+        @bind-Value="@Entity.EType"
+        Label="Тип элемента">
+            <MudSelectItem Value="@Model.EntityType.Department">Департамент</MudSelectItem>
+            <MudSelectItem Value="@Model.EntityType.Division">Отдел</MudSelectItem>
+        </MudSelect>
+        <MudTextField T="string" @bind-value="@Entity.Name" Label="Название" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Сохранить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Model.CreateEntity Entity { get; set; } = new() { EType = Model.EntityType.Department };
+
+    [Parameter]
+    public bool IsEdit { get; set; } = true;
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    public void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok<Model.CreateEntity>(Entity));
+    }
+}

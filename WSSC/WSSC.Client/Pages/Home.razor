@@ -1,0 +1,45 @@
+﻿@page "/"
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@inject NavigationManager Navigation
+@inject HttpClient httpClient
+@inject Model.UserData userData
+
+
+<MudText Typo="Typo.h2" Align="Align.Center">
+    Список компаний
+</MudText>
+<MudText Typo="Typo.h2" Class="mt-8" Align="Align.Center" hidden="@Loading">
+    <MudProgressCircular Class="align-center" Color="Color.Default" Indeterminate="true" />
+</MudText>
+<MudText Align="Align.Center" hidden="@NoCompaniesHidden" Class="mt-8">
+    В БД нет компаний
+</MudText>
+
+<MudList T="string" hidden="@CompaniesListHidden" Class="mt-8">
+    @foreach(var company in Companies)
+    {
+        <MudListItem Text="@company.Name" Href="@GetLink(company.ID)" />
+    }
+</MudList>
+
+<MudCard Class="mt-16">
+    <MudCardContent>
+        <MudText Align="Align.Center">Добавить компанию</MudText>
+        <MudTextField Label="Название компании" @bind-Value="NewCompanyName" />
+    </MudCardContent>
+    <MudCardActions >
+        <MudButton Disabled="@processing" OnClick="CreateCompany" Variant="Variant.Filled" Color="Color.Primary">
+            @if (processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Отправляем данные</MudText>
+            }
+            else
+            {
+                <MudText>Создать</MudText>
+            }
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+

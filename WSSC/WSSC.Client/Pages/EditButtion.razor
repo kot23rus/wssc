@@ -1,0 +1,72 @@
+﻿@inject HttpClient httpClient
+@inject Model.UserData userData
+@inject IDialogService DialogService
+
+@if(Processing)
+{
+    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+}
+else
+{
+    <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Color="Color.Inherit" OnClick="Click" />
+}
+
+@code {
+
+    public bool Processing { get; set; } = false;
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+
+    [Parameter]
+    public Guid ItemId { get; set; } = Guid.Empty;
+
+    [Parameter]
+    public TreeItemData<Guid>? ItemData{ get; set; }
+
+    private async Task Click()
+    {
+        if (httpClient.BaseAddress!=null)
+        {
+            this.Processing = true;
+            if (httpClient.BaseAddress != null)
+            {
+                var response = await httpClient.PatchAsJsonAsync<Model.EditRequest>($"{httpClient.BaseAddress.ToString()}api/startedit", new Model.EditRequest()
+                {
+                    EntityId = ItemId,
+                    UserName = userData.Name
+                });
+                if (response.IsSuccessStatusCode)
+                {
+                    await OnClickCallback.InvokeAsync(this);
+                }
+                else
+                {
+                    var respText = await response.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(respText))
+                    {
+                        await DialogService.ShowMessageBox(
+                        "Недоступно",
+                        $"Элемент не доступен для редактирования, сервер вернул статус {response.StatusCode}",
+                        "ОК"
+                        );
+                    }
+                    else
+                    {
+                       await DialogService.ShowMessageBox(
+                       "Недоступно",
+                       respText,
+                       "ОК"
+                       );
+                    }
+                    this.Processing = false;
+
+                }
+
+
+            }
+            
+        }
+        
+    }
+}

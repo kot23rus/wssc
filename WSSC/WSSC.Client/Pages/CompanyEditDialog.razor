@@ -1,0 +1,64 @@
+﻿@inject HttpClient httpClient
+@inject Model.UserData userData
+<MudDialog>
+    <TitleContent>
+        Редактирование компании
+    </TitleContent>
+    <DialogContent>
+        <MudTextField T="string" @bind-value="@Company.Name"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Сохранить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public required Model.Company Company { get;set; }
+
+    public async Task Cancel()
+    {
+        if (httpClient.BaseAddress != null)
+        {
+            var response = await httpClient.PatchAsJsonAsync<Model.EditRequest>($"{httpClient.BaseAddress.ToString()}api/canceledit", new Model.EditRequest()
+                {
+                    EntityId = Company.ID,
+                    UserName = userData.Name
+                });
+        }
+        MudDialog.Cancel();
+    }
+
+    public async Task Submit()
+    {
+        if (httpClient.BaseAddress != null)
+        {
+            var request = new Model.ModifyRequest()
+                {
+                    EntityId = Company.ID,
+                    UserName = userData.Name,
+                    Name = Company.Name,
+                    EType = Model.EntityType.Company
+                };
+            var response = await httpClient.PatchAsJsonAsync<Model.ModifyRequest>($"{httpClient.BaseAddress.ToString()}api/modify", request);
+            if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                MudDialog.Close(DialogResult.Ok<string>(Company.Name));
+            }
+            else
+            {
+                MudDialog.Cancel();
+            }
+        }
+        else
+        {
+            MudDialog.Cancel();
+        }
+
+    }
+}
